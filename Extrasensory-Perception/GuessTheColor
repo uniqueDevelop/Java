@@ -1,0 +1,193 @@
+/**Elena Chumakova
+  Extrasensory Perceprion Game/GUI
+  July 13, 2015 
+*/
+
+import javax.swing.*; //needed for Swing classes
+import java.awt.event.* ;//needed for ActionListener interface
+import java.util.Random ;//needed for Random class
+import java.awt.* ;
+
+/**
+   The  class displays JFrame that
+   lets the user enter a color picked. 
+   When the accept button is clicked, a dialog 
+   box is displayed with the computer generated color.
+   After that a dialog boxed is displayed with the results.
+   */
+   
+public class ESPGameGUI extends JFrame {
+
+   private JPanel panel;//To reference a panel
+   private JLabel messageLabel ;//to reference a label
+   private JLabel messageLabel2 ;//reference plain
+   private JLabel messageLabel3 ;//text
+   private JTextField colorGuess ;// to reference a text field
+                                  //the user's input
+   private JButton acceptButton ;//to reference a button
+   private final int WINDOW_WIDTH = 300 ; // window width
+   private final int WINDOW_HEIGHT = 150 ;// window height
+   public int count = 0 ;
+   /**
+      Constructor
+   */
+   
+   public ESPGameGUI() {
+   
+      // Set the window title.
+      setTitle("The ESP Game") ;
+      
+      //Set the size of the window.
+      setSize(WINDOW_WIDTH, WINDOW_HEIGHT) ;
+      
+      //Specify what happens when the close button is clicked.
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
+      
+      //Build the panel and add it to the frame.
+      buildPanel() ;
+      
+      //Add the panel to the frame's content pane.
+      add(panel) ;
+      
+      //Display the window
+      setVisible(true) ;
+   }
+   
+   /**
+      The buildPanel method adds a label, a text field, 
+      and a button to a panel.
+   */
+   
+   private void buildPanel() {
+   
+      //Create a label to display instructions.
+      messageLabel2 = new JLabel("Check your extrasensory abilities!!!") ;
+      messageLabel3 = new JLabel("Try to guess the color computer selects." ) ;
+      messageLabel  = new JLabel("Pick the color ") ;
+      
+     
+      //Create a text field 10 characters wide.
+      colorGuess = new JTextField(10) ;
+      
+      //Create a button with the caption "accept".
+      acceptButton = new JButton("accept") ;
+      
+      //Add an action listener to the button. 
+      acceptButton.addActionListener(new AcceptButtonListener() ) ;
+      
+      //Create JPanel objext and let the panel 
+      //field reference it.
+      panel = new JPanel() ;
+      
+      //set background color
+      panel.setBackground(Color.GREEN) ;
+      
+      //Add the labels, text field, and button
+      //components to the panel.
+      panel.add(messageLabel2) ;
+      panel.add(messageLabel3) ;
+      panel.add(messageLabel) ;
+      panel.add(colorGuess) ;
+      panel.add(acceptButton) ;
+      
+   }
+   
+ /** **********************************
+ * This method returns computer-     *
+ * generated random color            *
+ * @param String selectedWord        *  
+ * @return selectWord random color   *
+ *************************************/ 
+
+   public String rndColor() { 
+   String selectedWord = null ;
+   int number = 0 ; 
+     
+      Random randomNumbers = new Random () ; //instance of Random class
+         number = randomNumbers.nextInt(5) ; // randomly generated
+                                                   //number
+                 if (number == 0 ) {
+               selectedWord = "red" ; // assigns color to a String
+      
+            } else if (number == 1) {
+               selectedWord = "green" ;
+    
+            } else if (number == 2) {
+               selectedWord = "blue" ;
+      
+            } else if (number == 3) {
+               selectedWord = "yellow";
+    
+            } else if (number == 4 ) {
+               selectedWord = "orange" ;
+      
+            } else {
+               selectedWord = "invalid color" ;
+         } 
+   
+   return selectedWord ;
+   }
+
+   
+   /**
+      AcceptButtonListener is an action listener class for 
+      the accept button.
+   */
+   
+   private class AcceptButtonListener implements ActionListener {
+   
+      /** 
+         The actionPerformed method executes when the user
+         clicks on the Calculate button.
+         @param e The event object.
+      */
+      
+      public void actionPerformed(ActionEvent e) {
+      
+         String inputColor ; //to hold the user's input
+         String randomColor ;
+         int countMain= 0;
+         
+            // call method that generates
+            // a random color   
+            randomColor = rndColor() ; 
+         
+            //Get the text entered by the user into
+            //the text field.
+            inputColor = colorGuess.getText() ;
+       
+            //Display the result.
+            //Checks if the computer picked color is equal to 
+            //the user's pick
+              if (randomColor.equalsIgnoreCase(inputColor)  ) {  
+               
+                  JOptionPane.showMessageDialog(null,"Computer picked: " + randomColor +
+                                                ". Correct guess!!!") ;               
+                  //JOptionPane.showMessageDialog(null," You got it correctly " + count + " time(s).") ;
+                  count ++ ;                        
+                                                                  
+               } else if (!  (randomColor.equalsIgnoreCase(inputColor) ) ) {
+                  JOptionPane.showMessageDialog(null,"Computer picked: " + randomColor +
+                                                ". Sorry, incorrect guess :( ") ;
+               } 
+                        
+         for(int i =0 ; i <10 ; i++) {
+            panel.revalidate() ;
+            panel.repaint() ;
+         }
+         
+         countMain += count ;
+         JOptionPane.showMessageDialog(null, "The guessed correctly " + countMain + " times.") ;                  
+         }
+     } 
+
+      /** 
+         main method
+      */
+
+   public static void main (String[] args) {
+
+      ESPGameGUI gui = new ESPGameGUI() ;
+      
+   }
+}         
