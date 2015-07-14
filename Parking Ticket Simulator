@@ -1,0 +1,289 @@
+/**
+   Elena Chumakova
+*/
+
+/**
+   Mon, May 1th 2015
+   Parking Ticket Simulator
+   GUI
+*/
+
+import javax.swing.*; //needed for Swing classes
+import java.awt.event.* ;//needed for ActionListener interface
+import java.awt.* ;
+
+/**
+   The ParkingTicketGUI class displays JFrame that
+   lets the user enter a distance in kilometers. 
+   When the Calculate button is clicked, a dialog 
+   box is displayed with the distance converted 
+   to miles.
+   */
+   
+public class ParkingTicketGUI extends JFrame {
+
+   private JPanel panel ;//To reference a panel
+   private JLabel messageLabel1 ;//to reference a label
+   private JLabel messageLabel2 ;
+   private JLabel messageLabel3 ;
+   private JLabel messageLabel4 ;
+   private JLabel messageLabel5 ;
+   private JLabel messageLabel6 ;
+   private JLabel messageLabel7 ;
+   private JLabel messageLabel8 ;
+
+    JTextField textField1 ;// to reference a text field
+    JTextField textField2 ;
+    JTextField textField3 ;
+    JTextField textField4 ;
+    JTextField textField5 ;
+    JTextField textField6 ;
+    JTextField textField7 ;
+    JTextField textField8 ;
+
+   private JButton issueButton  ;//to reference a button
+   
+   private final int WINDOW_WIDTH = 380 ; // window width
+   private final int WINDOW_HEIGHT = 450 ;// window height
+   
+   /**
+      Constructor
+   */
+   
+   public ParkingTicketGUI() {
+   
+      // Set the window title.
+      setTitle("Parking Ticket Simulator") ;
+      
+      //Set the size of the window.
+      setSize(WINDOW_WIDTH, WINDOW_HEIGHT) ;
+      
+      //Specify what happens when the close button is clicked.
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
+      
+      //Build the panel and add it to the frame.
+      buildPanel() ;
+      
+      //Add the panel to the frame's content pane.
+      add(panel) ;
+      
+      //Display the window
+      setVisible(true) ;
+   }
+  
+  /*
+      This method calculates
+      the amount of fine.
+   */
+  
+  public static int reportFine(int minu) {
+     final int INITIALFINE = 25 ;
+     final int FINE_EXTRA_HOUR = 10 ;
+     int hours = minu / 60 ;
+     int fineS = 0 ;
+      
+      fineS = INITIALFINE ;
+      fineS += (hours * FINE_EXTRA_HOUR) ;
+        
+      return fineS ;
+   }
+
+   /**
+      The buildPanel method adds a label, a text field, 
+      and a button to a panel.
+   */
+
+   private void buildPanel() {
+   
+      //Create a label to display instructions.
+      messageLabel1 = new JLabel("Enter the make " +
+                                " of the car: ") ;
+     
+      messageLabel2 = new JLabel("Enter the model " +
+                                " of the car: ") ;
+      messageLabel3 = new JLabel("Enter the color " +
+                                " of the car: ") ;
+      messageLabel4 = new JLabel("Enter the license " +
+                                " number of the car: ") ;
+      messageLabel5 = new JLabel("Enter the amount of " +
+                                " minutes the car " +
+                                " has been parked : ") ;
+      messageLabel6 = new JLabel("Enter the amount of minutes " +
+                                " the driver has purchased: ") ;
+      messageLabel7 = new JLabel("Enter the officer's " +
+                                " name: ") ;
+      messageLabel8 = new JLabel("Enter the officer's " +
+                                " badge number: ") ;
+
+     //Create a text field 15 characters wide.
+      textField1 = new JTextField(10) ;
+      textField2 = new JTextField(10) ;
+      textField3 = new JTextField(10) ;
+      textField4 = new JTextField(10) ;
+      textField5 = new JTextField(10) ;
+      textField6 = new JTextField(10) ;
+      textField7 = new JTextField(10) ;
+      textField8 = new JTextField(10) ;
+    
+      //Create a button with the caption "Calculate".
+      issueButton = new JButton("Issue the ticket") ;
+      
+      //Add an action listener to the button. 
+      issueButton.addActionListener(new IssueButtonListener() ) ;
+      
+      //Create JPanel objext and let the panel 
+      //field referenjce it.
+      panel = new JPanel() ;
+      
+      //set the backgound color
+      panel.setBackground(Color.MAGENTA) ;
+            
+      //set layout
+      panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS) ) ;
+      
+      //set border
+      panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Parking Ticket") ) ;
+      
+      //Add the label, text field, and button
+      //components to the panel.
+      panel.add(messageLabel1) ;
+      panel.add(textField1) ;
+      
+      panel.add(messageLabel2) ;
+      panel.add(textField2) ;
+      
+      panel.add(messageLabel3) ;
+      panel.add(textField3) ;
+
+      panel.add(messageLabel4) ;
+      panel.add(textField4) ;
+      
+      panel.add(messageLabel5) ;
+      panel.add(textField5) ;
+
+      panel.add(messageLabel6) ;
+      panel.add(textField6) ;
+
+      panel.add(messageLabel7) ;
+      panel.add(textField7) ;
+      
+      panel.add(messageLabel8) ;
+      panel.add(textField8) ;
+      
+      panel.add(issueButton) ;
+   }
+   
+   /**
+      CalcButtonListener is an action listener class for 
+      the Calculate button.
+   */
+   
+   private class IssueButtonListener implements ActionListener {
+   
+      /** 
+         The actionPerformed method executes when the user
+         clicks on the "Issue the ticket" button.
+         @param e The event object.
+      */
+      
+      public void actionPerformed(ActionEvent e) { //new window pops up
+      
+      panel.setVisible(false) ;
+      
+      JPanel panelPrint ;
+      JLabel make ;//to reference labels
+      JLabel model ;
+      JLabel color ;
+      JLabel license ;
+      JLabel purchasedMinutes ;
+      JLabel parkedMinutes;
+      JLabel name ;
+      JLabel badgeNumber ;
+      JLabel unpaidMinutes ;
+      JLabel fineAmount ;
+      JLabel minutes ;
+      JLabel minutes2 ;
+      int    unPaidMin ;
+         
+      final int WINDOW_WIDTH  = 350 ; // window width
+      final int WINDOW_HEIGHT = 220 ;// window height
+   
+      //Create a label to display information.
+      make             = new JLabel("The model of the car is: " + textField1.getText() ) ;
+      model            = new JLabel("The make of the car is: "  + textField2.getText() ) ;
+      color            = new JLabel("The color of the car is: " + textField3.getText() ) ;
+      license          = new JLabel("The license number is: "   + textField4.getText() ) ;
+      parkedMinutes    = new JLabel("The car has been parked for " + textField5.getText() + " minute(s) " ) ;
+      purchasedMinutes = new JLabel("There were " + textField6.getText() + " minute(s) purchased " ) ;
+      name             = new JLabel("The officer's name is: "   + textField7.getText() ) ;
+      badgeNumber      = new JLabel("The officer's badge number is: " + textField8.getText() ) ;
+      
+      unPaidMin = Integer.parseInt(textField5.getText()) - Integer.parseInt(textField6.getText()) ;
+      
+            //Create JPanel objext and let the panel 
+      //field referenjce it.
+      panelPrint = new JPanel() ;
+      
+      //set the backgound color
+      panelPrint.setBackground(Color.YELLOW) ;
+            
+      //set layout
+      panelPrint.setLayout(new BoxLayout(panelPrint, BoxLayout.Y_AXIS) ) ;
+      
+      //set border
+      panelPrint.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Parking Ticket") ) ;
+      
+      //Add the label, text field, and button
+      //components to the panel.
+      panelPrint.add(make) ;
+      panelPrint.add(model) ;
+      
+      panelPrint.add(color) ;
+      panelPrint.add(license) ;
+      
+      panelPrint.add(purchasedMinutes) ;
+      panelPrint.add(parkedMinutes) ;
+
+      panelPrint.add(name) ;
+      panelPrint.add(badgeNumber) ;
+      
+      
+      if (unPaidMin > 0)  {  
+         minutes = new JLabel(" The car has been parked for " + unPaidMin + " minutes extra " ) ;
+         minutes2 = new JLabel(" The amount of fine is " + reportFine(unPaidMin) + " dollars " ) ; 
+      
+         panelPrint.add(minutes) ;
+         panelPrint.add(minutes2) ;
+      } 
+      else 
+      {
+         JLabel ok = new JLabel("The legal parking time has not exceeded ") ;
+         panelPrint.add(ok) ; 
+      }
+      
+      // Set the window title.
+      setTitle("Parking Ticket") ;
+      
+      //Set the size of the window.
+      setSize(WINDOW_WIDTH, WINDOW_HEIGHT) ;
+      
+      //Specify what happens when the close button is clicked.
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
+      
+      //Add the panel to the frame's content pane.
+      add(panelPrint) ;
+      
+      //Display the window
+      setVisible(true) ;
+      }
+   }              
+      /** 
+         main method
+      */
+
+   public static void main (String[] args) {
+   
+      new ParkingTicketGUI() ;
+      
+   }
+}
